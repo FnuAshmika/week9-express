@@ -1,0 +1,26 @@
+<%- include('../partials/header-dark.ejs') %>
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h1><%= post.title %></h1>
+                    <p class="mb-0"><%= post.description %></p>
+                </div>
+            </div>
+            <form action="/post/<%= post.slug %>/submit" method="POST">
+                <input type="hidden" name="title" value="<%= post.title %>">
+                <input type="hidden" name="postId" value="<%= post.id %>">
+                <input type="hidden" name="postId" value="<%= post.id %>">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <button class="form-control btn btn-primary btn-block" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer.ejs') %>
