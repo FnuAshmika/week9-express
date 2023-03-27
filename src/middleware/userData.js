@@ -16,6 +16,10 @@ const userData = async (req, res, next)=> {
                         slug,
                         title,
                         description,
+                        user{
+                            id,
+                            username
+                        }
                     }
                 }
             }
@@ -30,8 +34,8 @@ const userData = async (req, res, next)=> {
                 'Content-Type' : 'application/json'
             }
         })
-        let user = data.data.data.user
-        req.verifiedUser=user
+        // let user = data.data.data.user
+        req.verifiedUser.user.posts = data.data.data.user?.posts ?? []
         next()
     }catch(e){
         console.log(e)

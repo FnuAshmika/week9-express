@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Post } = require('../models')
 const { GraphQLString } = require('graphql')
 const { createJWT } = require('../util/auth')
 
@@ -38,8 +38,45 @@ const login = {
         return createJWT(user)
     }
 }
+const createPost = {
+    type: GraphQLString,
+    args : {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        userId: { type: GraphQLString },
+    },
+    async resolve(parent, args) {
+        console.log(args)
+        const slugify = args.title.toLowerCase()
+            .replace(/[^\w ]+/g, '')
+            .replace(/[ ]/g, '-')
 
+        let fullSlug = ''
+
+        while(true) {
+            let slugId = Math.floor(Math.random() * 1000000)
+
+            fullSlug = `${slugify}-${slugId}`
+
+            const existingQuiz = await Post.findOne({ slug: fullSlug })
+
+            if (!existingQuiz) {
+                break
+            }
+        }
+        const post = new Post({
+            slug: fullSlug,
+            title: args.title,
+            description: args.description,
+            userId: args.userId
+        })
+        await post.save()
+        return fullSlug
+    }
+}
+      
 module.exports = {
     register,
-    login
+    login,
+    createPost
 }

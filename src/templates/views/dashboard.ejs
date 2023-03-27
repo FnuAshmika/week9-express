@@ -1,32 +1,40 @@
 <%- include('../partials/header.ejs') %>
 
-<main class="container">
-    <h1 class="my-4">Tweet - Dashboard</h1>
-    <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
-        <h2 class="my-2">Your Posts</h2>
-        <a href="/quiz/create" class="btn btn-primary">Create Post +</a>
-    </div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (const post of user.posts) { %>
+    <main class="container">
+        <h1 class="my-4">Tweet - Dashboard</h1>
+        <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+            <h2 class="my-2">Your Posts</h2>
+            <a href="/post/create" class="btn btn-primary">Create Post +</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>
-                        <a href="/post/<%= post.slug %>"><strong><%= post.title %></strong></a>
-                        <br>
-                        <small><%= post.description %></small>
-                    </td>
-                    <td>
-                        <%= post.description.length %>
-                    </td>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
                 </tr>
-            <% } %>
-        </tbody>
-    </table>
-</main>
-<%- include('../partials/footer.ejs') %>
+            </thead>
+            <tbody>
+                <% if (Array.isArray(user.posts)) { %>
+                    <% for (const post of user.posts) { %>
+                        <tr>
+                            <td>
+                                <a href="/post/<%= post.slug %>"><strong>
+                                        <%= post.title %>
+                                    </strong></a>
+                                <br>
+                                <small>
+                                    <%= post.description %>
+                                </small>
+                            </td>
+                            <td>
+                                <%= post.description.length %>
+                            </td>
+                        </tr>
+                        <% } %>
+                            <% } else { %>
+                                <p>You have no posts yet!</p>
+                                <% } %>
+            </tbody>
+        </table>
+    </main>
+    <%- include('../partials/footer.ejs') %>

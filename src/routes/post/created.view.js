@@ -1,3 +1,3 @@
 module.exports=(req, res) => {
-    res.send('Created View')
+    res.render('post-success', { slug: req.params.slug })
 }
